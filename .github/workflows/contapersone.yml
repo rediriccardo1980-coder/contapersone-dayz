@@ -1,0 +1,27 @@
+name: Contapersone DayZ
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  aggiorna:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installa requests
+        run: pip install requests
+
+      - name: Aggiorna il contatore
+        env:
+          NITRADO_TOKEN: ${{ secrets.NITRADO_TOKEN }}
+          NITRADO_SERVICE_ID: ${{ secrets.NITRADO_SERVICE_ID }}
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
+        run: python contapersone.py
